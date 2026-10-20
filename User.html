@@ -1,0 +1,2039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>NEXUS PRIME | AUTOMATED ENGINE</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<!-- FontAwesome 6 Pro-grade Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+<!-- Canvas Confetti for ultra-slick payment / key generation celebration -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+<style>
+    /* ==========================================================================
+       CYBER-LUXURY GLASS DESIGN SYSTEM (1000x UPGRADE)
+    ========================================================================== */
+    :root {
+        --bg-void: #03060c;
+        --bg-primary: #070b14;
+        --bg-secondary: #0b1120;
+        --bg-card: rgba(14, 21, 37, 0.75);
+        --bg-card-hover: rgba(22, 33, 58, 0.85);
+        --bg-glass: rgba(16, 24, 44, 0.6);
+        --bg-input: #080d19;
+
+        --border-subtle: rgba(255, 255, 255, 0.06);
+        --border-glass: rgba(100, 150, 255, 0.16);
+        --border-glow: rgba(0, 229, 255, 0.45);
+
+        --primary: #00e5ff;
+        --primary-glow: rgba(0, 229, 255, 0.35);
+        --accent: #7928ca;
+        --accent-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 35%, #7928ca 100%);
+        --accent-fire: linear-gradient(135deg, #ff0844 0%, #ffb199 100%);
+        --accent-neon: linear-gradient(135deg, #00f5a0 0%, #00d9f5 100%);
+        --gold-glow: #fbbf24;
+        --success-glow: #10b981;
+        --danger-glow: #ef4444;
+
+        --text-pure: #ffffff;
+        --text-sub: #94a3b8;
+        --text-muted: #475569;
+
+        --radius-sm: 8px;
+        --radius-md: 14px;
+        --radius-lg: 22px;
+        --radius-pill: 9999px;
+
+        --trans-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+        --trans-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        --trans-spring: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    
+    body {
+        font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+        background-color: var(--bg-void);
+        background-image: 
+            radial-gradient(at 0% 0%, rgba(0, 229, 255, 0.08) 0px, transparent 50%),
+            radial-gradient(at 100% 0%, rgba(121, 40, 202, 0.12) 0px, transparent 50%),
+            radial-gradient(at 50% 100%, rgba(0, 245, 160, 0.05) 0px, transparent 50%);
+        background-attachment: fixed;
+        color: var(--text-pure);
+        min-height: 100vh;
+        min-height: 100dvh;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ambient cyber grid mesh background */
+    .cyber-grid {
+        position: fixed;
+        inset: 0;
+        background-size: 40px 40px;
+        background-image: 
+            linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .hidden { display: none !important; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-void); }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+    /* ==========================================================================
+       TOP NOTCH NAVIGATION
+    ========================================================================== */
+    .navbar {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        height: 70px;
+        background: rgba(7, 11, 20, 0.82);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border-subtle);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 24px;
+        z-index: 1000;
+    }
+
+    .brand-group {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+    }
+
+    .brand-icon-box {
+        width: 40px; height: 40px;
+        border-radius: var(--radius-md);
+        background: var(--accent-gradient);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: 900;
+        font-size: 16px;
+        box-shadow: 0 0 20px var(--primary-glow);
+        position: relative;
+    }
+
+    .brand-title {
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        background: linear-gradient(120deg, #ffffff, #a5b4fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .brand-title span {
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .live-balance-chip {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(0, 229, 255, 0.08);
+        border: 1px solid rgba(0, 229, 255, 0.25);
+        padding: 8px 16px;
+        border-radius: var(--radius-pill);
+        cursor: pointer;
+        transition: var(--trans-smooth);
+    }
+    .live-balance-chip:hover {
+        background: rgba(0, 229, 255, 0.15);
+        border-color: var(--primary);
+        box-shadow: 0 0 20px var(--primary-glow);
+        transform: translateY(-1px);
+    }
+    .live-balance-chip .pulse-dot {
+        width: 8px; height: 8px;
+        background: var(--primary);
+        border-radius: 50%;
+        box-shadow: 0 0 10px var(--primary);
+        animation: pulseLive 2s infinite;
+    }
+    @keyframes pulseLive {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.4; transform: scale(1.3); }
+    }
+    .live-balance-chip .bal-amt {
+        font-weight: 800;
+        font-size: 14px;
+        color: #fff;
+    }
+
+    .icon-btn-round {
+        width: 40px; height: 40px;
+        border-radius: var(--radius-md);
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-subtle);
+        color: var(--text-sub);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--trans-fast);
+    }
+    .icon-btn-round:hover {
+        color: var(--primary);
+        border-color: var(--border-glass);
+        background: var(--bg-card-hover);
+    }
+
+    /* Menu Dropdown */
+    .nexus-dropdown {
+        position: absolute;
+        top: 76px; right: 24px;
+        width: 250px;
+        background: rgba(14, 21, 37, 0.95);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid var(--border-glass);
+        border-radius: var(--radius-lg);
+        padding: 10px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 229, 255, 0.1);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-8px) scale(0.96);
+        transition: var(--trans-spring);
+        z-index: 1001;
+    }
+    .nexus-dropdown.open {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+    }
+    .drop-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        border-radius: var(--radius-md);
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--text-sub);
+        cursor: pointer;
+        transition: var(--trans-fast);
+    }
+    .drop-item i { width: 18px; font-size: 15px; color: var(--text-muted); }
+    .drop-item:hover {
+        background: rgba(0, 229, 255, 0.08);
+        color: #fff;
+    }
+    .drop-item:hover i { color: var(--primary); }
+    .drop-item.danger:hover {
+        background: rgba(239, 68, 68, 0.12);
+        color: var(--danger-glow);
+    }
+    .drop-item.danger:hover i { color: var(--danger-glow); }
+    .drop-divider { height: 1px; background: var(--border-subtle); margin: 6px 0; }
+
+    /* ==========================================================================
+       GLOBAL CONTAINER & HERO BANNER
+    ========================================================================== */
+    .app-viewport {
+        position: relative;
+        z-index: 1;
+        padding: 94px 20px 80px;
+        max-width: 1280px;
+        margin: 0 auto;
+    }
+
+    .hero-glass-box {
+        background: linear-gradient(135deg, rgba(22, 33, 62, 0.6) 0%, rgba(10, 15, 29, 0.7) 100%);
+        border: 1px solid var(--border-glass);
+        border-radius: var(--radius-lg);
+        padding: 30px;
+        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+    .hero-glass-box::before {
+        content: '';
+        position: absolute;
+        top: -50%; right: -20%;
+        width: 350px; height: 350px;
+        background: radial-gradient(circle, rgba(0, 229, 255, 0.18), transparent 70%);
+        pointer-events: none;
+    }
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        border-radius: var(--radius-pill);
+        background: rgba(0, 245, 160, 0.1);
+        border: 1px solid rgba(0, 245, 160, 0.3);
+        color: #00f5a0;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+    .hero-title {
+        font-size: 28px;
+        font-weight: 900;
+        letter-spacing: -0.8px;
+        line-height: 1.2;
+    }
+    .hero-sub {
+        color: var(--text-sub);
+        font-size: 14px;
+        margin-top: 6px;
+        max-width: 520px;
+    }
+
+    .search-dock {
+        position: relative;
+        min-width: 280px;
+        max-width: 380px;
+        width: 100%;
+    }
+    .search-dock input {
+        width: 100%;
+        padding: 14px 20px 14px 46px;
+        background: rgba(8, 13, 25, 0.9);
+        border: 1.5px solid var(--border-subtle);
+        border-radius: var(--radius-pill);
+        color: #fff;
+        font-size: 14px;
+        transition: var(--trans-smooth);
+    }
+    .search-dock input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 25px var(--primary-glow);
+        outline: none;
+    }
+    .search-dock i.fa-search {
+        position: absolute;
+        left: 18px; top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        font-size: 15px;
+    }
+
+    /* ==========================================================================
+       PRODUCT GRID & CARDS
+    ========================================================================== */
+    .grid-panels {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+        gap: 24px;
+    }
+
+    .product-card {
+        background: var(--bg-card);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        transition: var(--trans-smooth);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+    .product-card:hover {
+        transform: translateY(-6px);
+        border-color: var(--border-glass);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 229, 255, 0.12);
+    }
+
+    .card-banner {
+        position: relative;
+        padding-bottom: 54%;
+        background: #020408;
+        overflow: hidden;
+    }
+    .card-banner iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+    .card-banner .no-video-placeholder {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #0e1525, #080d19);
+        color: var(--text-muted);
+        gap: 8px;
+    }
+
+    .card-content {
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        flex: 1;
+    }
+
+    .card-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+    }
+    .card-title {
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: -0.3px;
+    }
+    .card-badge-status {
+        padding: 4px 10px;
+        border-radius: var(--radius-pill);
+        font-size: 10.5px;
+        font-weight: 700;
+        background: rgba(16, 185, 129, 0.1);
+        color: #10b981;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+    }
+
+    .feature-tags-cloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+    .tag-chip {
+        padding: 4px 10px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--border-subtle);
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-sub);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .tag-chip i { font-size: 9px; color: var(--primary); }
+
+    .selector-box {
+        position: relative;
+    }
+    .custom-select {
+        width: 100%;
+        padding: 12px 16px;
+        background: var(--bg-input);
+        border: 1.5px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        color: #fff;
+        font-size: 13.5px;
+        font-weight: 600;
+        outline: none;
+        appearance: none;
+        cursor: pointer;
+        transition: var(--trans-fast);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2300e5ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+    }
+    .custom-select:focus {
+        border-color: var(--primary);
+    }
+    .custom-select option {
+        background: #0d1527;
+        color: #fff;
+    }
+
+    .card-actions-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: auto;
+    }
+    .btn-secondary {
+        padding: 11px;
+        border-radius: var(--radius-md);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border-subtle);
+        color: var(--text-sub);
+        font-weight: 700;
+        font-size: 12.5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: var(--trans-fast);
+    }
+    .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        border-color: var(--border-glass);
+    }
+
+    .btn-cyber-primary {
+        grid-column: span 2;
+        padding: 14px;
+        border-radius: var(--radius-md);
+        background: var(--accent-gradient);
+        border: none;
+        color: #fff;
+        font-weight: 800;
+        font-size: 14px;
+        letter-spacing: 0.3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: var(--trans-smooth);
+        box-shadow: 0 4px 20px rgba(0, 229, 255, 0.25);
+    }
+    .btn-cyber-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(0, 229, 255, 0.45);
+    }
+    .btn-cyber-primary:active { transform: translateY(0); }
+
+    /* ==========================================================================
+       SEAMLESS AUTOMATIC CHECKOUT MODAL (THE HIGHLIGHT)
+    ========================================================================== */
+    .nexus-modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(2, 4, 8, 0.85);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--trans-smooth);
+    }
+    .nexus-modal-backdrop.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .checkout-engine-card {
+        width: 100%;
+        max-width: 480px;
+        background: #0d1527;
+        border: 1px solid var(--border-glass);
+        border-radius: var(--radius-lg);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 50px rgba(0, 229, 255, 0.15);
+        overflow: hidden;
+        transform: scale(0.94) translateY(15px);
+        transition: var(--trans-spring);
+        position: relative;
+    }
+    .nexus-modal-backdrop.active .checkout-engine-card {
+        transform: scale(1) translateY(0);
+    }
+
+    .modal-banner-top {
+        padding: 20px 24px;
+        background: linear-gradient(135deg, rgba(0, 229, 255, 0.12), rgba(121, 40, 202, 0.12));
+        border-bottom: 1px solid var(--border-subtle);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .modal-banner-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 800;
+        font-size: 16px;
+    }
+    .modal-close-cross {
+        width: 32px; height: 32px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border-subtle);
+        color: var(--text-sub);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--trans-fast);
+    }
+    .modal-close-cross:hover {
+        background: rgba(255, 255, 255, 0.15);
+        color: #fff;
+    }
+
+    .modal-body-scrollable {
+        padding: 24px;
+        max-height: 80vh;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    /* Checkout summary card */
+    .summary-receipt {
+        background: var(--bg-input);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        padding: 18px;
+    }
+    .receipt-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 7px 0;
+        font-size: 13.5px;
+        color: var(--text-sub);
+    }
+    .receipt-row strong { color: #fff; }
+    .receipt-divider { height: 1px; background: var(--border-subtle); margin: 8px 0; }
+    
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding-top: 6px;
+    }
+    .total-row span {
+        font-size: 15px;
+        font-weight: 700;
+        color: #fff;
+    }
+    .total-row .price-wrap {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+    }
+    .total-row .original-cut {
+        text-decoration: line-through;
+        color: var(--text-muted);
+        font-size: 14px;
+    }
+    .total-row .net-price {
+        font-size: 24px;
+        font-weight: 900;
+        color: var(--primary);
+        font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Tab switcher for payment mode inside checkout */
+    .pay-mode-selector {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        background: var(--bg-input);
+        padding: 4px;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border-subtle);
+    }
+    .mode-tab-btn {
+        padding: 10px;
+        border-radius: var(--radius-sm);
+        background: transparent;
+        border: none;
+        color: var(--text-sub);
+        font-weight: 700;
+        font-size: 12.5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: var(--trans-fast);
+    }
+    .mode-tab-btn.active {
+        background: var(--bg-card);
+        color: var(--primary);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        border: 1px solid var(--border-glass);
+    }
+
+    /* Auto QR Checkout State Container */
+    .auto-checkout-stage {
+        background: rgba(0, 229, 255, 0.03);
+        border: 1px solid var(--border-glass);
+        border-radius: var(--radius-md);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 12px;
+        position: relative;
+    }
+
+    .qr-visualizer-box {
+        width: 190px; height: 190px;
+        background: #fff;
+        border-radius: var(--radius-md);
+        padding: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .qr-visualizer-box img {
+        width: 100%; height: 100%;
+        object-fit: contain;
+    }
+    
+    /* Cyber Scanning Laser Line */
+    .laser-scan-line {
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #00e5ff, transparent);
+        box-shadow: 0 0 10px #00e5ff;
+        animation: scanAnimation 2s linear infinite;
+    }
+    @keyframes scanAnimation {
+        0% { top: 0%; opacity: 0; }
+        15% { opacity: 1; }
+        85% { opacity: 1; }
+        100% { top: 100%; opacity: 0; }
+    }
+
+    .polling-status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 14px;
+        border-radius: var(--radius-pill);
+        background: rgba(0, 229, 255, 0.1);
+        border: 1px solid rgba(0, 229, 255, 0.25);
+        font-size: 12px;
+        font-weight: 600;
+        color: #fff;
+    }
+
+    /* Coupon section */
+    .coupon-bar {
+        display: flex;
+        gap: 8px;
+    }
+    .coupon-bar input {
+        flex: 1;
+        padding: 10px 14px;
+        background: var(--bg-input);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        color: #fff;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .coupon-bar input:focus { border-color: var(--primary); outline: none; }
+    .coupon-bar button {
+        padding: 10px 16px;
+        border-radius: var(--radius-md);
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-glass);
+        color: #fff;
+        font-weight: 700;
+        font-size: 12.5px;
+        cursor: pointer;
+        transition: var(--trans-fast);
+    }
+    .coupon-bar button:hover {
+        background: var(--primary);
+        color: #000;
+    }
+
+    /* ==========================================================================
+       KEY UNLOCKED / SUCCESS MODAL
+    ========================================================================== */
+    .success-celebration-box {
+        text-align: center;
+        padding: 30px 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+    .success-pulse-ring {
+        width: 72px; height: 72px;
+        border-radius: 50%;
+        background: rgba(16, 185, 129, 0.15);
+        border: 2px solid #10b981;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #10b981;
+        font-size: 32px;
+        box-shadow: 0 0 30px rgba(16, 185, 129, 0.35);
+        animation: popCelebration 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes popCelebration {
+        from { transform: scale(0.2); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+
+    .key-license-container {
+        width: 100%;
+        background: #060a14;
+        border: 1.5px dashed rgba(0, 229, 255, 0.4);
+        border-radius: var(--radius-md);
+        padding: 18px;
+        position: relative;
+    }
+    .key-license-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        letter-spacing: 1px;
+        margin-bottom: 6px;
+    }
+    .key-license-string {
+        font-size: 20px;
+        font-weight: 800;
+        color: #00f5a0;
+        letter-spacing: 2.5px;
+        word-break: break-all;
+    }
+
+    /* ==========================================================================
+       WALLET VIEW & STATS
+    ========================================================================== */
+    .wallet-metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        margin-bottom: 28px;
+    }
+    .metric-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-lg);
+        padding: 22px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        transition: var(--trans-smooth);
+    }
+    .metric-card:hover {
+        border-color: var(--border-glass);
+        transform: translateY(-3px);
+    }
+    .metric-icon-box {
+        width: 48px; height: 48px;
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+    }
+
+    /* ==========================================================================
+       TOAST ALERTS
+    ========================================================================== */
+    #toast-shelf {
+        position: fixed;
+        bottom: 24px; left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 100000;
+        width: 90%;
+        max-width: 420px;
+        pointer-events: none;
+    }
+    .cyber-toast {
+        pointer-events: auto;
+        padding: 14px 18px;
+        background: rgba(14, 21, 37, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--border-glass);
+        border-radius: var(--radius-md);
+        color: #fff;
+        font-size: 13.5px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+        animation: toastEnter 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .cyber-toast.success { border-left: 4px solid var(--success-glow); }
+    .cyber-toast.error { border-left: 4px solid var(--danger-glow); }
+    .cyber-toast.info { border-left: 4px solid var(--primary); }
+    @keyframes toastEnter {
+        from { transform: translateY(20px) scale(0.95); opacity: 0; }
+        to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    /* ==========================================================================
+       AUTH PANEL
+    ========================================================================== */
+    #auth-view {
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        position: relative;
+        z-index: 10;
+    }
+    .auth-frame-card {
+        width: 100%;
+        max-width: 420px;
+        background: var(--bg-card);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid var(--border-glass);
+        border-radius: var(--radius-lg);
+        padding: 38px 30px;
+        box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 40px rgba(0, 229, 255, 0.1);
+        position: relative;
+    }
+    .auth-frame-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: var(--accent-gradient);
+    }
+
+    .form-input-dock {
+        margin-bottom: 16px;
+        position: relative;
+    }
+    .form-input-dock input {
+        width: 100%;
+        padding: 14px 18px 14px 44px;
+        background: var(--bg-input);
+        border: 1.5px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        color: #fff;
+        font-size: 14px;
+        transition: var(--trans-fast);
+    }
+    .form-input-dock input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 20px var(--primary-glow);
+        outline: none;
+    }
+    .form-input-dock i {
+        position: absolute;
+        left: 16px; top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        font-size: 15px;
+    }
+
+    /* Global Loader */
+    #global-spinner {
+        position: fixed;
+        inset: 0;
+        background: rgba(3, 6, 12, 0.9);
+        backdrop-filter: blur(15px);
+        z-index: 999999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+    }
+    .ring-neon {
+        width: 50px; height: 50px;
+        border: 3px solid rgba(0, 229, 255, 0.15);
+        border-top-color: var(--primary);
+        border-radius: 50%;
+        animation: spinRing 0.8s linear infinite;
+    }
+    @keyframes spinRing { 100% { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- Ambient Grid Background -->
+<div class="cyber-grid"></div>
+
+<!-- Global System Loader -->
+<div id="global-spinner">
+    <div class="ring-neon"></div>
+    <div style="font-size:12px;letter-spacing:2px;font-weight:700;color:var(--text-sub);">INITIALIZING SYSTEM...</div>
+</div>
+
+<!-- Toast Shelf -->
+<div id="toast-shelf"></div>
+
+<!-- ==========================================================================
+     AUTH SCREEN (CLEAN, NO WHATSAPP / TELEGRAM)
+========================================================================== -->
+<div id="auth-view">
+    <div class="auth-frame-card" id="box-login">
+        <div style="text-align:center;margin-bottom:28px;">
+            <div class="brand-icon-box" style="margin:0 auto 14px;width:52px;height:52px;font-size:20px;">NP</div>
+            <h2 style="font-size:24px;font-weight:900;letter-spacing:-0.5px;">NEXUS <span style="background:var(--accent-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">ENGINE</span></h2>
+            <p style="color:var(--text-sub);font-size:13.5px;margin-top:6px;">Sign in to access automated deployment &amp; licenses</p>
+        </div>
+
+        <div class="form-input-dock">
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="auth-login-email" placeholder="Account email address" autocomplete="email"/>
+        </div>
+        <div class="form-input-dock">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="auth-login-pass" placeholder="Account security password" autocomplete="current-password"/>
+        </div>
+
+        <button class="btn-cyber-primary" id="btn-do-login" style="width:100%;margin-top:8px;">
+            <span>Sign In to Dashboard</span>
+            <i class="fas fa-arrow-right"></i>
+        </button>
+
+        <p style="text-align:center;color:var(--text-sub);font-size:13px;margin-top:20px;">
+            Don't have an access key? 
+            <span style="color:var(--primary);font-weight:700;cursor:pointer;" id="switch-to-signup">Create Account</span>
+        </p>
+    </div>
+
+    <div class="auth-frame-card hidden" id="box-signup">
+        <div style="text-align:center;margin-bottom:28px;">
+            <div class="brand-icon-box" style="margin:0 auto 14px;width:52px;height:52px;font-size:20px;">NP</div>
+            <h2 style="font-size:24px;font-weight:900;letter-spacing:-0.5px;">Create <span>Account</span></h2>
+            <p style="color:var(--text-sub);font-size:13.5px;margin-top:6px;">Instant setup with 256-bit automated encryption</p>
+        </div>
+
+        <div class="form-input-dock">
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="auth-signup-email" placeholder="Your email address" autocomplete="email"/>
+        </div>
+        <div class="form-input-dock">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="auth-signup-pass" placeholder="Create password (6+ chars)" autocomplete="new-password"/>
+        </div>
+
+        <button class="btn-cyber-primary" id="btn-do-signup" style="width:100%;margin-top:8px;">
+            <span>Initialize Account</span>
+            <i class="fas fa-user-plus"></i>
+        </button>
+
+        <p style="text-align:center;color:var(--text-sub);font-size:13px;margin-top:20px;">
+            Existing member? 
+            <span style="color:var(--primary);font-weight:700;cursor:pointer;" id="switch-to-login">Sign In</span>
+        </p>
+    </div>
+</div>
+
+<!-- ==========================================================================
+     CORE APPLICATION DASHBOARD
+========================================================================== -->
+<div id="main-viewport" class="hidden">
+
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+        <div class="brand-group" onclick="switchPage('home')">
+            <div class="brand-icon-box">NP</div>
+            <div class="brand-title" id="site-display-name">NEXUS <span>PRIME</span></div>
+        </div>
+
+        <div class="nav-actions">
+            <!-- Real-time Live Wallet Chip -->
+            <div class="live-balance-chip" onclick="switchPage('wallet')">
+                <span class="pulse-dot"></span>
+                <span style="font-size:12px;color:var(--text-sub);">Balance</span>
+                <span class="bal-amt">₹<span id="nav-bal-num">0.00</span></span>
+            </div>
+
+            <button class="icon-btn-round" id="btn-toggle-menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Custom Dropdown Menu -->
+        <div class="nexus-dropdown" id="global-dropdown">
+            <div class="drop-item" onclick="switchPage('home')"><i class="fas fa-grid-2"></i> Store Panels</div>
+            <div class="drop-item" onclick="switchPage('wallet')"><i class="fas fa-wallet"></i> Wallet &amp; Add Funds</div>
+            <div class="drop-item" onclick="switchPage('keys')"><i class="fas fa-key-skeleton"></i> Generated Keys</div>
+            <div class="drop-item" onclick="switchPage('profile')"><i class="fas fa-id-card"></i> Account Profile</div>
+            <div class="drop-divider"></div>
+            <div class="drop-item danger" id="btn-app-logout"><i class="fas fa-arrow-right-from-bracket"></i> Terminate Session</div>
+        </div>
+    </nav>
+
+    <div class="app-viewport">
+
+        <!-- ==========================================
+             VIEW: HOME / STORE
+        =========================================== -->
+        <div id="view-home">
+            <!-- Hero Dashboard Banner -->
+            <div class="hero-glass-box">
+                <div>
+                    <div class="hero-badge"><i class="fas fa-bolt"></i> AUTOMATIC CHECKOUT SYSTEM</div>
+                    <h1 class="hero-title">High-Performance <br/><span style="background:var(--accent-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Automated Tools &amp; Panels</span></h1>
+                    <p class="hero-sub">Direct instant checkout, autonomous key distribution, and seamless real-time payment verification.</p>
+                </div>
+
+                <!-- Live Search Dock -->
+                <div class="search-dock">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="store-search-field" placeholder="Search panel or tool features..."/>
+                </div>
+            </div>
+
+            <!-- Dynamic Panels Grid -->
+            <div class="grid-panels" id="panels-list-render">
+                <!-- Injected dynamically via script -->
+            </div>
+
+            <!-- Empty Search State -->
+            <div class="hidden" id="empty-search-alert" style="text-align:center;padding:60px 20px;">
+                <i class="fas fa-magnifying-glass-chart" style="font-size:42px;color:var(--text-muted);margin-bottom:12px;"></i>
+                <h3 style="font-size:18px;font-weight:700;">No matching panels found</h3>
+                <p style="color:var(--text-sub);font-size:13.5px;margin-top:4px;">Try searching with different keywords or clear query.</p>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             VIEW: WALLET & ADD CASH
+        =========================================== -->
+        <div id="view-wallet" class="hidden">
+            <div style="margin-bottom:24px;">
+                <h2 style="font-size:26px;font-weight:900;">Autonomous <span style="color:var(--primary);">Wallet</span></h2>
+                <p style="color:var(--text-sub);font-size:14px;margin-top:4px;">Manage funds, review automated ledger transactions, and deposit balance.</p>
+            </div>
+
+            <div class="wallet-metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon-box" style="background:rgba(0, 229, 255, 0.1);color:var(--primary);"><i class="fas fa-vault"></i></div>
+                    <div>
+                        <div style="font-size:12px;font-weight:700;color:var(--text-sub);text-transform:uppercase;">Current Balance</div>
+                        <div style="font-size:24px;font-weight:900;color:#fff;margin-top:2px;">₹<span id="metric-cur-bal">0.00</span></div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon-box" style="background:rgba(16, 185, 129, 0.1);color:#10b981;"><i class="fas fa-circle-down"></i></div>
+                    <div>
+                        <div style="font-size:12px;font-weight:700;color:var(--text-sub);text-transform:uppercase;">Total Deposited</div>
+                        <div style="font-size:24px;font-weight:900;color:#fff;margin-top:2px;">₹<span id="metric-tot-dep">0.00</span></div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon-box" style="background:rgba(121, 40, 202, 0.15);color:#a855f7;"><i class="fas fa-bag-shopping"></i></div>
+                    <div>
+                        <div style="font-size:12px;font-weight:700;color:var(--text-sub);text-transform:uppercase;">Total Spent</div>
+                        <div style="font-size:24px;font-weight:900;color:#fff;margin-top:2px;">₹<span id="metric-tot-spent">0.00</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instant Deposit Section -->
+            <div class="checkout-engine-card" style="max-width:540px;margin:0 auto;">
+                <div class="modal-banner-top">
+                    <div class="modal-banner-title"><i class="fas fa-qrcode" style="color:var(--primary);"></i> Automated Gateway Deposit</div>
+                    <span class="hero-badge" style="margin:0;"><i class="fas fa-shield-check"></i> SSL Secure</span>
+                </div>
+                <div class="modal-body-scrollable">
+                    <p style="color:var(--text-sub);font-size:13.5px;line-height:1.6;">
+                        Enter amount to generate a dynamic, self-verifying payment session. Funds update automatically upon confirmation.
+                    </p>
+
+                    <div class="form-input-dock">
+                        <i class="fas fa-indian-rupee-sign"></i>
+                        <input type="number" id="deposit-amount-input" placeholder="Amount to add (e.g. 500)"/>
+                    </div>
+
+                    <button class="btn-cyber-primary" id="btn-init-deposit">
+                        <i class="fas fa-bolt"></i> Generate Dynamic Payment QR
+                    </button>
+
+                    <!-- Embedded Autonomous QR Box (Appears when triggered) -->
+                    <div id="deposit-qr-arena" class="hidden" style="margin-top:10px;">
+                        <div class="auto-checkout-stage">
+                            <div class="qr-visualizer-box">
+                                <img id="deposit-qr-img" src="" alt="Payment QR"/>
+                                <div class="laser-scan-line"></div>
+                            </div>
+                            <div class="polling-status-badge">
+                                <i class="fas fa-arrows-rotate fa-spin" style="color:var(--primary);"></i>
+                                <span>Listening for automated settlement...</span>
+                            </div>
+                            <div style="font-size:12px;color:var(--text-sub);">
+                                Order Reference: <strong class="mono" id="deposit-order-ref" style="color:#fff;">-</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             VIEW: GENERATED KEYS & LICENSES
+        =========================================== -->
+        <div id="view-keys" class="hidden">
+            <div style="margin-bottom:24px;">
+                <h2 style="font-size:26px;font-weight:900;">License <span style="color:var(--primary);">Inventory</span></h2>
+                <p style="color:var(--text-sub);font-size:14px;margin-top:4px;">All activated keys and direct download portals tied to your account.</p>
+            </div>
+
+            <div class="grid-panels" id="keys-list-render">
+                <!-- Keys dynamically rendered -->
+            </div>
+        </div>
+
+        <!-- ==========================================
+             VIEW: PROFILE & SECURITY
+        =========================================== -->
+        <div id="view-profile" class="hidden">
+            <div class="checkout-engine-card" style="max-width:540px;margin:0 auto;">
+                <div class="modal-banner-top">
+                    <div class="modal-banner-title"><i class="fas fa-user-astronaut" style="color:var(--primary);"></i> Account Dossier</div>
+                </div>
+                <div class="modal-body-scrollable">
+                    <div class="receipt-row"><span>Account Email</span><strong id="prof-disp-email">-</strong></div>
+                    <div class="receipt-row"><span>Security ID (UID)</span><strong class="mono" id="prof-disp-uid" style="font-size:12px;">-</strong></div>
+                    <div class="receipt-row"><span>Member Since</span><strong id="prof-disp-date">-</strong></div>
+                    <div class="receipt-row"><span>Account Status</span><strong style="color:#10b981;">VERIFIED_ACTIVE</strong></div>
+                    <div class="receipt-divider"></div>
+                    <button class="btn-secondary" style="width:100%;" onclick="copyText(document.getElementById('prof-disp-uid').innerText, 'UID')">
+                        <i class="fas fa-copy"></i> Copy UID
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ==========================================================================
+     UNIFIED 1000x AUTOMATIC CHECKOUT ENGINE (MODAL)
+========================================================================== -->
+<div class="nexus-modal-backdrop" id="modal-checkout-engine">
+    <div class="checkout-engine-card">
+        <div class="modal-banner-top">
+            <div class="modal-banner-title">
+                <i class="fas fa-bolt" style="color:var(--primary);"></i>
+                <span>Automated Checkout</span>
+            </div>
+            <button class="modal-close-cross" onclick="closeCheckoutEngine()"><i class="fas fa-xmark"></i></button>
+        </div>
+
+        <div class="modal-body-scrollable">
+            <!-- Payment Mode Selector -->
+            <div class="pay-mode-selector">
+                <button class="mode-tab-btn active" id="chk-tab-direct" onclick="setCheckoutMode('direct')">
+                    <i class="fas fa-qrcode"></i> Instant Auto QR
+                </button>
+                <button class="mode-tab-btn" id="chk-tab-balance" onclick="setCheckoutMode('balance')">
+                    <i class="fas fa-wallet"></i> Pay with Balance
+                </button>
+            </div>
+
+            <!-- Receipt Breakdown -->
+            <div class="summary-receipt">
+                <div class="receipt-row"><span>Selected Product</span><strong id="chk-item-name">-</strong></div>
+                <div class="receipt-row"><span>Subscription Plan</span><strong id="chk-item-plan" style="color:var(--gold-glow);">-</strong></div>
+                <div class="receipt-row"><span>Base Price</span><strong>₹<span id="chk-base-price">0.00</span></strong></div>
+                
+                <div class="receipt-divider"></div>
+
+                <div class="total-row">
+                    <span>Payable Total</span>
+                    <div class="price-wrap">
+                        <span class="original-cut hidden" id="chk-cut-price">₹0.00</span>
+                        <span class="net-price">₹<span id="chk-net-price">0.00</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Promo Code Row -->
+            <div class="coupon-bar">
+                <input type="text" id="coupon-entry-input" placeholder="DISCOUNT COUPON"/>
+                <button id="btn-trigger-coupon" onclick="handleCouponVerification()">Apply</button>
+            </div>
+
+            <!-- MODE A: DIRECT AUTOMATIC QR (NO BALANCE NEEDED) -->
+            <div id="mode-direct-container">
+                <div class="auto-checkout-stage">
+                    <div class="qr-visualizer-box">
+                        <img id="auto-checkout-qr-img" src="" alt="Instant UPI QR"/>
+                        <div class="laser-scan-line"></div>
+                    </div>
+                    
+                    <div class="polling-status-badge">
+                        <i class="fas fa-arrows-rotate fa-spin" style="color:var(--primary);"></i>
+                        <span id="auto-polling-text">Autonomous checkout armed...</span>
+                    </div>
+
+                    <div style="font-size:12px;color:var(--text-sub);line-height:1.5;">
+                        Scan with PhonePe, GooglePay, Paytm, or any UPI App.<br/>
+                        <span style="color:var(--primary);font-weight:700;">Key issues automatically the microsecond payment lands!</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODE B: INSTANT WALLET SETTLEMENT -->
+            <div id="mode-balance-container" class="hidden">
+                <div style="background:var(--bg-input);padding:16px;border-radius:var(--radius-md);border:1px solid var(--border-subtle);text-align:center;">
+                    <div style="font-size:13px;color:var(--text-sub);">Available Wallet Reserves</div>
+                    <div style="font-size:22px;font-weight:800;color:#fff;margin:4px 0 12px;">₹<span id="chk-balance-preview">0.00</span></div>
+                    <button class="btn-cyber-primary" id="btn-wallet-instant-pay" onclick="executeBalanceSettlement()" style="width:100%;">
+                        <i class="fas fa-check-circle"></i> Confirm &amp; Deduct Balance
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ==========================================================================
+     KEY DELIVERY / SUCCESS MODAL
+========================================================================== -->
+<div class="nexus-modal-backdrop" id="modal-key-success">
+    <div class="checkout-engine-card" style="max-width:440px;">
+        <div class="success-celebration-box">
+            <div class="success-pulse-ring">
+                <i class="fas fa-check"></i>
+            </div>
+
+            <div>
+                <h3 style="font-size:22px;font-weight:900;">Payment Confirmed!</h3>
+                <p style="color:var(--text-sub);font-size:13.5px;margin-top:4px;">Autonomous validation successful. Your key is live.</p>
+            </div>
+
+            <div class="key-license-container">
+                <div class="key-license-label">Generated License Key</div>
+                <div class="key-license-string mono" id="disp-success-key">NEXUS-XXXX-XXXX</div>
+            </div>
+
+            <div style="display:flex;gap:10px;width:100%;">
+                <button class="btn-secondary" style="flex:1;" onclick="copyText(document.getElementById('disp-success-key').innerText, 'License Key')">
+                    <i class="fas fa-copy"></i> Copy Key
+                </button>
+                <button class="btn-cyber-primary" style="flex:1;" id="btn-direct-access-tool">
+                    <i class="fas fa-download"></i> Access Tool
+                </button>
+            </div>
+
+            <button class="btn-secondary" style="width:100%;font-size:12px;" onclick="closeSuccessModal()">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ==========================================================================
+     FIREBASE + AUTOMATED GATEWAY ENGINE SCRIPT
+========================================================================== -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } 
+        from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getDatabase, ref, set, get, onValue, push, runTransaction, serverTimestamp, update } 
+        from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    /* ==========================================================================
+       YOUR CUSTOM GATEWAY CONFIGURATION
+       Put your own base URL, API keys, merchant identifiers, or backend endpoints here!
+    ========================================================================== */
+    window.MY_GATEWAY = {
+        BASE_URL: "https://your-custom-gateway.com/api/v1", // <-- Replace with your gateway URL
+        API_KEY: "YOUR_CUSTOM_API_KEY_HERE",               // <-- Replace with your API key
+        MERCHANT_ID: "YOUR_MERCHANT_ID",                   // <-- Replace if needed
+        UPI_ID: "merchant@upi",                            // <-- Fallback direct UPI VPA for dynamic QR
+        
+        // Dynamic order creation handler
+        createOrder: async function(orderData) {
+            console.log("[GATEWAY] Initiating order:", orderData);
+            
+            /*
+               IF YOU HAVE A DIRECT REST API ENDPOINT:
+               const response = await fetch(`${this.BASE_URL}/create-order`, {
+                   method: 'POST',
+                   headers: {
+                       'Content-Type': 'application/json',
+                       'Authorization': `Bearer ${this.API_KEY}`
+                   },
+                   body: JSON.stringify(orderData)
+               });
+               return await response.json();
+            */
+
+            // High-precision automated UPI Intent String builder (Compatible with PhonePe/GPay/Paytm scanners)
+            const upiString = `upi://pay?pa=${encodeURIComponent(this.UPI_ID)}&pn=NexusStore&am=${orderData.amount}&tn=${encodeURIComponent(orderData.orderId)}&cu=INR`;
+            const dynamicQrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiString)}&margin=10`;
+
+            return {
+                status: "success",
+                orderId: orderData.orderId,
+                paymentUrl: upiString,
+                qrCodeUrl: dynamicQrUrl
+            };
+        },
+
+        // Dynamic order verification poller
+        verifyOrderStatus: async function(orderId) {
+            /*
+               CHECK YOUR GATEWAY STATUS ENDPOINT:
+               const res = await fetch(`${this.BASE_URL}/check-status?order_id=${orderId}&key=${this.API_KEY}`);
+               const data = await res.json();
+               return data.status === 'COMPLETED';
+            */
+            return false; // Poller handles DB hook
+        }
+    };
+
+    // Firebase Config
+    const firebaseConfig = {
+        apiKey: "AIzaSyBpSY9XZEzc15ZKMWO8mjZ9LJCjZaa2ais",
+        authDomain: "website-2b2a7.firebaseapp.com",
+        databaseURL: "https://website-2b2a7-default-rtdb.firebaseio.com",
+        projectId: "website-2b2a7",
+        storageBucket: "website-2b2a7.firebasestorage.app",
+        messagingSenderId: "241635645014",
+        appId: "1:241635645014:web:5dd07a9fff28a53ebf8df7",
+        measurementId: "G-T7PX5NBTR8"
+    };
+
+    let app, auth, db;
+    try {
+        app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getDatabase(app);
+    } catch (e) {
+        console.error("Firebase connection error:", e);
+    }
+
+    // App State
+    let currentUser = null;
+    let userData = { balance: 0 };
+    let activeCheckout = null;
+    let checkoutMode = 'direct'; // 'direct' or 'balance'
+    let orderPoller = null;
+    let appliedCoupon = null;
+
+    // Toast Utility
+    window.notify = (message, type = 'info') => {
+        const shelf = document.getElementById('toast-shelf');
+        const toast = document.createElement('div');
+        toast.className = `cyber-toast ${type}`;
+        const icon = type === 'success' ? 'fa-circle-check' : (type === 'error' ? 'fa-triangle-exclamation' : 'fa-circle-info');
+        toast.innerHTML = `<i class="fas ${icon}"></i> <span>${message}</span>`;
+        shelf.appendChild(toast);
+        setTimeout(() => {
+            toast.style.transition = 'all 0.3s ease';
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(15px)';
+            setTimeout(() => toast.remove(), 300);
+        }, 3600);
+    };
+
+    // Clipboard Copy Utility
+    window.copyText = (text, label = 'Content') => {
+        if (!text || text === '-' || text.includes('XXXX')) return notify("Nothing to copy", "info");
+        navigator.clipboard.writeText(text).then(() => {
+            notify(`${label} copied to clipboard!`, 'success');
+        }).catch(() => {
+            notify("Failed to copy", 'error');
+        });
+    };
+
+    // License Key Generator
+    function generateLicenseKey(prefix = 'NX') {
+        const seg = () => Math.random().toString(36).substring(2, 6).toUpperCase();
+        return `${prefix}-${seg()}-${seg()}-${seg()}`;
+    }
+
+    // Video ID Extractor
+    function getYoutubeId(url) {
+        if (!url) return null;
+        const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+        return match ? match[1] : null;
+    }
+
+    // Loader controls
+    const spinner = document.getElementById('global-spinner');
+    const showLoading = () => spinner.classList.remove('hidden');
+    const hideLoading = () => spinner.classList.add('hidden');
+
+    // UI View Switcher
+    window.switchPage = (pageName) => {
+        ['home', 'wallet', 'keys', 'profile'].forEach(p => {
+            const el = document.getElementById(`view-${p}`);
+            if (el) el.classList.toggle('hidden', p !== pageName);
+        });
+        document.getElementById('global-dropdown').classList.remove('open');
+        if (pageName === 'keys') loadPurchasedKeys();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    // Dropdown toggler
+    document.getElementById('btn-toggle-menu').addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.getElementById('global-dropdown').classList.toggle('open');
+    });
+    document.addEventListener('click', () => {
+        document.getElementById('global-dropdown').classList.remove('open');
+    });
+
+    // Auth screen switchers
+    document.getElementById('switch-to-signup').addEventListener('click', () => {
+        document.getElementById('box-login').classList.add('hidden');
+        document.getElementById('box-signup').classList.remove('hidden');
+    });
+    document.getElementById('switch-to-login').addEventListener('click', () => {
+        document.getElementById('box-signup').classList.add('hidden');
+        document.getElementById('box-login').classList.remove('hidden');
+    });
+
+    // Authentication State Listener
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            currentUser = user;
+            document.getElementById('auth-view').classList.add('hidden');
+            document.getElementById('main-viewport').classList.remove('hidden');
+            
+            document.getElementById('prof-disp-email').innerText = user.email || 'N/A';
+            document.getElementById('prof-disp-uid').innerText = user.uid;
+
+            // Sync User Real-time DB
+            onValue(ref(db, `users/${user.uid}`), (snap) => {
+                if (snap.exists()) {
+                    userData = snap.val();
+                    const bal = parseFloat(userData.balance || 0).toFixed(2);
+                    document.getElementById('nav-bal-num').innerText = bal;
+                    document.getElementById('metric-cur-bal').innerText = bal;
+                    document.getElementById('chk-balance-preview').innerText = bal;
+                    if (userData.createdAt) {
+                        document.getElementById('prof-disp-date').innerText = new Date(userData.createdAt).toLocaleDateString();
+                    }
+                }
+            });
+
+            // Listen to User Ledger
+            onValue(ref(db, `transactions/${user.uid}`), (snap) => {
+                let depTotal = 0, spentTotal = 0;
+                if (snap.exists()) {
+                    snap.forEach(c => {
+                        const t = c.val();
+                        if (t.type && t.type.includes('deposit') && t.status === 'success') {
+                            depTotal += parseFloat(t.amount || 0);
+                        }
+                        if (t.type === 'purchase' && t.status === 'success') {
+                            spentTotal += parseFloat(t.amount || 0);
+                        }
+                    });
+                }
+                document.getElementById('metric-tot-dep').innerText = depTotal.toFixed(2);
+                document.getElementById('metric-tot-spent').innerText = spentTotal.toFixed(2);
+            });
+
+            // Branding Hook
+            onValue(ref(db, 'settings/branding'), (snap) => {
+                if (snap.exists() && snap.val().name) {
+                    document.getElementById('site-display-name').innerHTML = `${snap.val().name} <span>PRIME</span>`;
+                }
+            });
+
+            // Fetch panels
+            renderPanels();
+            hideLoading();
+        } else {
+            currentUser = null;
+            document.getElementById('auth-view').classList.remove('hidden');
+            document.getElementById('main-viewport').classList.add('hidden');
+            hideLoading();
+        }
+    });
+
+    // Auth Actions
+    document.getElementById('btn-do-login').addEventListener('click', async () => {
+        const em = document.getElementById('auth-login-email').value.trim();
+        const pw = document.getElementById('auth-login-pass').value;
+        if (!em || !pw) return notify("Enter email and password", "error");
+        showLoading();
+        try {
+            await signInWithEmailAndPassword(auth, em, pw);
+            notify("Authenticated successfully!", "success");
+        } catch (e) {
+            notify(e.message, "error");
+        } finally { hideLoading(); }
+    });
+
+    document.getElementById('btn-do-signup').addEventListener('click', async () => {
+        const em = document.getElementById('auth-signup-email').value.trim();
+        const pw = document.getElementById('auth-signup-pass').value;
+        if (!em || pw.length < 6) return notify("Password must be at least 6 characters", "error");
+        showLoading();
+        try {
+            const cred = await createUserWithEmailAndPassword(auth, em, pw);
+            await set(ref(db, `users/${cred.user.uid}`), {
+                email: em,
+                balance: 0,
+                createdAt: serverTimestamp(),
+                status: 'active'
+            });
+            notify("Account generated!", "success");
+        } catch (e) {
+            notify(e.message, "error");
+        } finally { hideLoading(); }
+    });
+
+    document.getElementById('btn-app-logout').addEventListener('click', async () => {
+        await signOut(auth);
+        notify("Logged out", "info");
+    });
+
+    // Render Panels dynamically
+    function renderPanels() {
+        onValue(ref(db, 'panels'), (snap) => {
+            const container = document.getElementById('panels-list-render');
+            container.innerHTML = '';
+            if (!snap.exists()) {
+                container.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted);">No products deployed in store currently.</div>`;
+                return;
+            }
+
+            snap.forEach(child => {
+                const p = child.val();
+                if (!p || p.status !== 'active') return;
+                const pid = child.key;
+                const ytId = getYoutubeId(p.youtube);
+
+                // Split features
+                const desc = p.description || 'Premium Automated Panel';
+                const tagChips = desc.split(/\n|-/).filter(t => t.trim().length > 0).slice(0, 5)
+                    .map(t => `<div class="tag-chip"><i class="fas fa-check"></i> ${t.trim()}</div>`).join('');
+
+                // Plans dropdown
+                let plansOptions = '';
+                if (p.plans && Object.keys(p.plans).length > 0) {
+                    const sorted = Object.entries(p.plans).sort((a,b) => (a[1].price||0) - (b[1].price||0));
+                    sorted.forEach(([k, plan]) => {
+                        const lbl = plan.label || `${plan.days || ''} Days Access`;
+                        const val = JSON.stringify({ key: k, label: lbl, price: plan.price || 0 });
+                        plansOptions += `<option value='${val}'>${lbl} — ₹${plan.price || 0}</option>`;
+                    });
+                } else {
+                    plansOptions = `<option value='{"key":"default","label":"Standard Access","price":99}'>Standard Access — ₹99</option>`;
+                }
+
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.dataset.search = `${p.name || ''} ${desc}`.toLowerCase();
+
+                card.innerHTML = `
+                    <div class="card-banner">
+                        ${ytId ? `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&controls=0" allowfullscreen></iframe>`
+                                : `<div class="no-video-placeholder"><i class="fas fa-microchip" style="font-size:32px;"></i><span style="font-size:12px;font-weight:600;">ACTIVE CORE</span></div>`}
+                    </div>
+                    <div class="card-content">
+                        <div class="card-head">
+                            <div class="card-title">${p.name || 'Nexus Tool'}</div>
+                            <div class="card-badge-status"><i class="fas fa-circle" style="font-size:7px;"></i> READY</div>
+                        </div>
+
+                        <div class="feature-tags-cloud">${tagChips}</div>
+
+                        <div class="selector-box">
+                            <select class="custom-select" id="select-plan-${pid}">${plansOptions}</select>
+                        </div>
+
+                        <div class="card-actions-grid">
+                            ${p.link ? `<button class="btn-secondary" onclick="window.open('${p.link}','_blank')"><i class="fas fa-download"></i> Client</button>` : ''}
+                            ${p.feedback ? `<button class="btn-secondary" onclick="window.open('${p.feedback}','_blank')"><i class="fas fa-star"></i> Reviews</button>` : ''}
+                            <button class="btn-cyber-primary" onclick="launchAutomaticCheckout('${pid}', '${(p.name||'Tool').replace(/'/g, "\'")}', '${p.link||''}')">
+                                <i class="fas fa-bolt"></i> Instant Checkout
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        });
+    }
+
+    // Live Search Filter
+    document.getElementById('store-search-field').addEventListener('input', (e) => {
+        const val = e.target.value.toLowerCase().trim();
+        const cards = document.querySelectorAll('.product-card');
+        let matched = 0;
+        cards.forEach(c => {
+            const matches = c.dataset.search.includes(val);
+            c.style.display = matches ? 'flex' : 'none';
+            if (matches) matched++;
+        });
+        document.getElementById('empty-search-alert').classList.toggle('hidden', matched > 0 || cards.length === 0);
+    });
+
+    /* ==========================================================================
+       AUTOMATIC CHECKOUT CONTROLLER (INSTANT QR + POLLER)
+    ========================================================================== */
+    window.launchAutomaticCheckout = async (panelId, panelName, link) => {
+        const select = document.getElementById(`select-plan-${panelId}`);
+        if (!select) return;
+        const plan = JSON.parse(select.value);
+
+        activeCheckout = {
+            panelId,
+            panelName,
+            link,
+            planKey: plan.key,
+            planLabel: plan.label,
+            basePrice: parseFloat(plan.price) || 0,
+            finalPrice: parseFloat(plan.price) || 0,
+            orderId: 'ORD_' + Date.now() + '_' + Math.floor(Math.random() * 900 + 100)
+        };
+        appliedCoupon = null;
+
+        document.getElementById('chk-item-name').innerText = panelName;
+        document.getElementById('chk-item-plan').innerText = plan.label;
+        document.getElementById('chk-base-price').innerText = activeCheckout.basePrice.toFixed(2);
+        document.getElementById('chk-net-price').innerText = activeCheckout.finalPrice.toFixed(2);
+        document.getElementById('chk-cut-price').classList.add('hidden');
+        document.getElementById('coupon-entry-input').value = '';
+
+        setCheckoutMode('direct');
+        document.getElementById('modal-checkout-engine').classList.add('active');
+
+        // Trigger dynamic order generation through custom gateway
+        await renderGatewayCheckoutOrder();
+    };
+
+    window.closeCheckoutEngine = () => {
+        document.getElementById('modal-checkout-engine').classList.remove('active');
+        if (orderPoller) clearInterval(orderPoller);
+    };
+
+    window.setCheckoutMode = (mode) => {
+        checkoutMode = mode;
+        document.getElementById('chk-tab-direct').classList.toggle('active', mode === 'direct');
+        document.getElementById('chk-tab-balance').classList.toggle('active', mode === 'balance');
+        document.getElementById('mode-direct-container').classList.toggle('hidden', mode !== 'direct');
+        document.getElementById('mode-balance-container').classList.toggle('hidden', mode !== 'balance');
+    };
+
+    // Render Gateway Order into Modal
+    async function renderGatewayCheckoutOrder() {
+        if (!activeCheckout) return;
+
+        // Register order inside Database as PENDING
+        const orderRef = ref(db, `orders/${activeCheckout.orderId}`);
+        await set(orderRef, {
+            orderId: activeCheckout.orderId,
+            userId: currentUser.uid,
+            userEmail: currentUser.email,
+            panelId: activeCheckout.panelId,
+            panelName: activeCheckout.panelName,
+            plan: activeCheckout.planLabel,
+            amount: activeCheckout.finalPrice,
+            status: 'pending',
+            createdAt: serverTimestamp()
+        });
+
+        // Request QR & payment payload from YOUR custom gateway handler
+        const gatewayRes = await window.MY_GATEWAY.createOrder({
+            orderId: activeCheckout.orderId,
+            amount: activeCheckout.finalPrice,
+            userId: currentUser.uid,
+            userEmail: currentUser.email
+        });
+
+        document.getElementById('auto-checkout-qr-img').src = gatewayRes.qrCodeUrl;
+        document.getElementById('auto-polling-text').innerText = `Awaiting payment of ₹${activeCheckout.finalPrice.toFixed(2)}...`;
+
+        // Start High-Frequency Real-time Autonomous Poller
+        startAutonomousPaymentPoller(activeCheckout.orderId);
+    }
+
+    // Real-time Autonomous Order Listener
+    function startAutonomousPaymentPoller(orderId) {
+        if (orderPoller) clearInterval(orderPoller);
+
+        // Listen for Database order fulfillment (via webhook or admin approval)
+        const orderStatusRef = ref(db, `orders/${orderId}/status`);
+        onValue(orderStatusRef, async (snap) => {
+            const status = snap.val();
+            if (status === 'success' || status === 'approved' || status === 'completed') {
+                clearInterval(orderPoller);
+                await fulfillOrderAndDistributeKey(activeCheckout);
+            }
+        });
+
+        // Periodic check on custom gateway endpoint
+        orderPoller = setInterval(async () => {
+            try {
+                const isPaid = await window.MY_GATEWAY.verifyOrderStatus(orderId);
+                if (isPaid) {
+                    clearInterval(orderPoller);
+                    await update(ref(db, `orders/${orderId}`), { status: 'success' });
+                }
+            } catch (err) {
+                console.error("Gateway poll err:", err);
+            }
+        }, 4000);
+    }
+
+    // Fulfill Order, Deliver Key & Trigger Confetti
+    async function fulfillOrderAndDistributeKey(checkoutData) {
+        closeCheckoutEngine();
+        const licenseKey = generateLicenseKey();
+
+        // Save into User's Inventory
+        await push(ref(db, `purchases/${currentUser.uid}`), {
+            panelId: checkoutData.panelId,
+            panelName: checkoutData.panelName,
+            plan: checkoutData.planKey,
+            label: checkoutData.planLabel,
+            price: checkoutData.finalPrice,
+            key: licenseKey,
+            link: checkoutData.link || '',
+            date: new Date().toISOString()
+        });
+
+        // Log transaction
+        await set(ref(db, `transactions/${currentUser.uid}/${checkoutData.orderId}`), {
+            id: checkoutData.orderId,
+            type: 'purchase',
+            amount: checkoutData.finalPrice,
+            status: 'success',
+            desc: `Instant Auto Purchase: ${checkoutData.panelName}`,
+            date: new Date().toISOString()
+        });
+
+        // Trigger Canvas Confetti
+        if (window.confetti) {
+            confetti({
+                particleCount: 120,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
+        // Open Success Box
+        document.getElementById('disp-success-key').innerText = licenseKey;
+        document.getElementById('btn-direct-access-tool').onclick = () => {
+            if (checkoutData.link) window.open(checkoutData.link, '_blank');
+            else notify("No client binary linked for this tool", "info");
+        };
+        document.getElementById('modal-key-success').classList.add('active');
+        notify("Autonomous checkout verified! Key issued.", "success");
+    }
+
+    window.closeSuccessModal = () => {
+        document.getElementById('modal-key-success').classList.remove('active');
+        switchPage('keys');
+    };
+
+    // Mode B: Pay using Wallet balance
+    window.executeBalanceSettlement = async () => {
+        if (!activeCheckout) return;
+        const curBal = parseFloat(userData.balance || 0);
+        const cost = activeCheckout.finalPrice;
+
+        if (curBal < cost) {
+            return notify(`Insufficient balance. Short by ₹${(cost - curBal).toFixed(2)}`, "error");
+        }
+
+        showLoading();
+        try {
+            const userBalRef = ref(db, `users/${currentUser.uid}/balance`);
+            const txResult = await runTransaction(userBalRef, (bal) => {
+                if (bal >= cost) return bal - cost;
+                return undefined; // Abort
+            });
+
+            if (txResult.committed) {
+                await fulfillOrderAndDistributeKey(activeCheckout);
+            } else {
+                notify("Transaction aborted: Insufficient funds", "error");
+            }
+        } catch (e) {
+            notify("Settlement failure: " + e.message, "error");
+        } finally {
+            hideLoading();
+        }
+    };
+
+    // Coupon verification
+    window.handleCouponVerification = async () => {
+        const code = document.getElementById('coupon-entry-input').value.trim().toUpperCase();
+        if (!code) return notify("Enter a promo code", "info");
+        showLoading();
+        try {
+            const snap = await get(ref(db, 'coupons'));
+            let found = null;
+            if (snap.exists()) {
+                const data = snap.val();
+                for (const k in data) {
+                    if (data[k].code === code) { found = { id: k, ...data[k] }; break; }
+                }
+            }
+
+            if (!found || found.status !== true) {
+                notify("Invalid or inactive coupon", "error");
+            } else {
+                const discountPct = parseFloat(found.discount || 0);
+                const cut = (activeCheckout.basePrice * discountPct) / 100;
+                activeCheckout.finalPrice = Math.max(0, activeCheckout.basePrice - cut);
+                
+                document.getElementById('chk-cut-price').innerText = `₹${activeCheckout.basePrice.toFixed(2)}`;
+                document.getElementById('chk-cut-price').classList.remove('hidden');
+                document.getElementById('chk-net-price').innerText = activeCheckout.finalPrice.toFixed(2);
+                notify(`Applied! Saved ${discountPct}%`, "success");
+
+                // Regenerate Gateway QR for the discounted amount
+                await renderGatewayCheckoutOrder();
+            }
+        } catch (e) {
+            notify("Error applying coupon", "error");
+        } finally {
+            hideLoading();
+        }
+    };
+
+    /* ==========================================================================
+       WALLET VIEW DIRECT DEPOSIT WITH DYNAMIC QR
+    ========================================================================== */
+    document.getElementById('btn-init-deposit').addEventListener('click', async () => {
+        const amt = parseFloat(document.getElementById('deposit-amount-input').value);
+        if (!amt || amt < 10) return notify("Minimum deposit amount is ₹10", "error");
+
+        const depositOrderId = "DEP_" + Date.now();
+        showLoading();
+
+        try {
+            // Register pending deposit
+            await set(ref(db, `orders/${depositOrderId}`), {
+                orderId: depositOrderId,
+                userId: currentUser.uid,
+                userEmail: currentUser.email,
+                amount: amt,
+                type: 'wallet_deposit',
+                status: 'pending',
+                createdAt: serverTimestamp()
+            });
+
+            // Call Custom Gateway to get dynamic deposit QR
+            const gatewayRes = await window.MY_GATEWAY.createOrder({
+                orderId: depositOrderId,
+                amount: amt,
+                userId: currentUser.uid,
+                userEmail: currentUser.email
+            });
+
+            document.getElementById('deposit-qr-img').src = gatewayRes.qrCodeUrl;
+            document.getElementById('deposit-order-ref').innerText = depositOrderId;
+            document.getElementById('deposit-qr-arena').classList.remove('hidden');
+
+            notify("Autonomous Payment QR generated. Complete scan to credit funds.", "success");
+
+            // Real-time listener for balance crediting upon confirmation
+            onValue(ref(db, `orders/${depositOrderId}/status`), async (snap) => {
+                if (snap.val() === 'success') {
+                    // Credit balance atomically
+                    await runTransaction(ref(db, `users/${currentUser.uid}/balance`), b => (b || 0) + amt);
+                    await set(ref(db, `transactions/${currentUser.uid}/${depositOrderId}`), {
+                        id: depositOrderId,
+                        type: 'deposit_auto',
+                        amount: amt,
+                        status: 'success',
+                        desc: 'Autonomous Gateway Deposit',
+                        date: new Date().toISOString()
+                    });
+                    document.getElementById('deposit-qr-arena').classList.add('hidden');
+                    document.getElementById('deposit-amount-input').value = '';
+                    notify(`₹${amt} credited to wallet instantly!`, "success");
+                    if (window.confetti) confetti();
+                }
+            });
+
+        } catch (e) {
+            notify("Deposit generation error: " + e.message, "error");
+        } finally {
+            hideLoading();
+        }
+    });
+
+    // Render Keys Inventory
+    function loadPurchasedKeys() {
+        if (!currentUser) return;
+        showLoading();
+        get(ref(db, `purchases/${currentUser.uid}`)).then(snap => {
+            const container = document.getElementById('keys-list-render');
+            container.innerHTML = '';
+            if (!snap.exists()) {
+                container.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:50px;color:var(--text-muted);"><i class="fas fa-key" style="font-size:36px;margin-bottom:10px;"></i><p>No keys generated yet. Choose a tool from the store!</p></div>`;
+            } else {
+                const keys = [];
+                snap.forEach(c => keys.push({ id: c.key, ...c.val() }));
+                keys.sort((a,b) => new Date(b.date || 0) - new Date(a.date || 0));
+
+                keys.forEach(k => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
+                        <div class="card-content">
+                            <div class="card-head">
+                                <div class="card-title">${k.panelName || 'Tool'}</div>
+                                <div class="card-badge-status"><i class="fas fa-shield"></i> LICENSED</div>
+                            </div>
+                            <div style="font-size:12px;color:var(--text-sub);">${k.label || 'Standard'} &bull; ${new Date(k.date).toLocaleDateString()}</div>
+                            
+                            <div class="key-license-container" style="padding:12px;">
+                                <div class="key-license-label">Access License</div>
+                                <div class="key-license-string mono" style="font-size:16px;">${k.key || 'N/A'}</div>
+                            </div>
+
+                            <div style="display:flex;gap:8px;">
+                                <button class="btn-secondary" style="flex:1;" onclick="copyText('${k.key}', 'Key')"><i class="fas fa-copy"></i> Copy</button>
+                                ${k.link ? `<button class="btn-secondary" style="flex:1;" onclick="window.open('${k.link}','_blank')"><i class="fas fa-download"></i> Binary</button>` : ''}
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+        }).finally(() => hideLoading());
+    }
+
+</script>
+</body>
+</html>

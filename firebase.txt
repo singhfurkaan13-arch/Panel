@@ -1,0 +1,24 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyA9voINhFQLDMnZ0TNvlpVfMbiSo48pLr8",
+  authDomain: "quantuam-e3a66.firebaseapp.com",
+  projectId: "quantuam-e3a66",
+  storageBucket: "quantuam-e3a66.firebasestorage.app",
+  messagingSenderId: "725211414564",
+  appId: "YOUR_APP_ID",
+  databaseURL: "https://console.firebase.google.com/u/0/project/quantuam-e3a66/database/quantuam-e3a66-default-rtdb/data/~2F"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+malikmanaan069@gmail.com
+malikmanaan069@gmail.com
